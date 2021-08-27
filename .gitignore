@@ -1,0 +1,9 @@
+node_modules/
+/lib/
+/test/
+custom-elements.json
+
+/*.js
+/*.js.map
+/*.d.ts
+/*.d.ts.map
