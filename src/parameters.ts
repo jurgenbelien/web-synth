@@ -6,13 +6,15 @@ export enum Taper {
 export type Value = number;
 
 export class Parameter {
-  value: Value;
+  private _value: Value;
   private _min: Value;
   private _max: Value;
   private _taper: Taper;
 
+  onChange?: (value: number) => void;
+
   constructor(initial: Value, max: Value, min = 0, taper: Taper = Taper.LOG) {
-    this.value = initial;
+    this._value = initial;
     this._max = max;
     this._min = min;
     this._taper = taper;
@@ -55,6 +57,17 @@ export class Parameter {
       value = relative * (max - min) + min;
     }
     this.value = value;
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  set value(value: number) {
+    this._value = value;
+    if (this.onChange) {
+      this.onChange(value);
+    }
   }
 }
 
