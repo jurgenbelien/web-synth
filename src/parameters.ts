@@ -29,6 +29,33 @@ export class Parameter {
   get taper() {
     return this._taper;
   }
+
+  get relative() {
+    let value = this.value;
+    let min = this.min;
+    let max = this.max;
+
+    if (this.taper === Taper.LOG) {
+      value = Math.log2(this.value);
+      min = Math.log2(this.min);
+      max = Math.log2(this.max);
+    }
+    return (value - min) / (max - min);
+  }
+
+  set relative(relative) {
+    let value;
+    if (this.taper === Taper.LOG) {
+      const min = Math.log2(this.min);
+      const max = Math.log2(this.max);
+      value = Math.pow(2, relative * (max - min) + min);
+    } else {
+      const min = this.min;
+      const max = this.max;
+      value = relative * (max - min) + min;
+    }
+    this.value = value;
+  }
 }
 
 export class LinParameter extends Parameter {
